@@ -16,24 +16,24 @@
 
 package org.springframework.cloud.alicloud.ans.registry;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.alibaba.ans.core.NamingService;
+import com.alibaba.ans.shaded.com.taobao.vipserver.client.ipms.NodeReactor;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.serviceregistry.ServiceRegistry;
 
-import com.alibaba.ans.core.NamingService;
-import com.alibaba.ans.shaded.com.taobao.vipserver.client.ipms.NodeReactor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author xiaolongzuo
  */
 public class AnsServiceRegistry implements ServiceRegistry<AnsRegistration> {
 
-	private static Logger logger = LoggerFactory.getLogger(AnsServiceRegistry.class);
+	private static final Logger log = LoggerFactory.getLogger(AnsServiceRegistry.class);
 
 	private static final String SEPARATOR = ",";
 
@@ -41,11 +41,11 @@ public class AnsServiceRegistry implements ServiceRegistry<AnsRegistration> {
 	public void register(AnsRegistration registration) {
 
 		if (!registration.isRegisterEnabled()) {
-			logger.info("Registration is disabled...");
+			log.warn("Registration is disabled...");
 			return;
 		}
 		if (StringUtils.isEmpty(registration.getServiceId())) {
-			logger.info("No service to register for client...");
+			log.warn("No service to register for client...");
 			return;
 		}
 
@@ -63,12 +63,12 @@ public class AnsServiceRegistry implements ServiceRegistry<AnsRegistration> {
 				NamingService.regDom(dom, registration.getHost(), registration.getPort(),
 						registration.getRegisterWeight(dom), registration.getCluster(),
 						tags);
-				logger.info("INFO_ANS_REGISTER, {} {}:{} register finished", dom,
+				log.info("INFO_ANS_REGISTER, {} {}:{} register finished", dom,
 						registration.getAnsProperties().getClientIp(),
 						registration.getAnsProperties().getClientPort());
 			}
 			catch (Exception e) {
-				logger.error("ERR_ANS_REGISTER, {} register failed...{},", dom,
+				log.error("ERR_ANS_REGISTER, {} register failed...{},", dom,
 						registration.toString(), e);
 			}
 		}
@@ -77,10 +77,10 @@ public class AnsServiceRegistry implements ServiceRegistry<AnsRegistration> {
 	@Override
 	public void deregister(AnsRegistration registration) {
 
-		logger.info("De-registering from ANSServer now...");
+		log.info("De-registering from ANSServer now...");
 
 		if (StringUtils.isEmpty(registration.getServiceId())) {
-			logger.info("No dom to de-register for client...");
+			log.warn("No dom to de-register for client...");
 			return;
 		}
 
@@ -89,11 +89,11 @@ public class AnsServiceRegistry implements ServiceRegistry<AnsRegistration> {
 					registration.getPort(), registration.getCluster());
 		}
 		catch (Exception e) {
-			logger.error("ERR_ANS_DEREGISTER, de-register failed...{},",
+			log.error("ERR_ANS_DEREGISTER, de-register failed...{},",
 					registration.toString(), e);
 		}
 
-		logger.info("De-registration finished.");
+		log.info("De-registration finished.");
 	}
 
 	@Override

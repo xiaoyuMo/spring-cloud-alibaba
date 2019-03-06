@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author xiaojing
  */
-@SpringBootApplication
 @EnableDiscoveryClient
+@SpringBootApplication
 public class ProviderApplication {
 
 	public static void main(String[] args) {

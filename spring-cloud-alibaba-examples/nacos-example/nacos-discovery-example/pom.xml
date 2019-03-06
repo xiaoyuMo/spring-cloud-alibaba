@@ -20,6 +20,4 @@
         <module>nacos-discovery-consumer-example</module>
         <module>nacos-discovery-provider-example</module>
     </modules>
-
-
 </project>

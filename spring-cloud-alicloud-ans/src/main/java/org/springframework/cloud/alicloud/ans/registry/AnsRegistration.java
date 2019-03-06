@@ -16,12 +16,6 @@
 
 package org.springframework.cloud.alicloud.ans.registry;
 
-import java.net.URI;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.alicloud.context.ans.AnsProperties;
 import org.springframework.cloud.client.DefaultServiceInstance;
 import org.springframework.cloud.client.ServiceInstance;
@@ -31,20 +25,26 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
+import java.net.URI;
+import java.util.Map;
+
 /**
  * @author xiaolongzuo
  */
 public class AnsRegistration implements Registration, ServiceInstance {
 
-	private static final String MANAGEMENT_PORT = "management.port";
-	private static final String MANAGEMENT_CONTEXT_PATH = "management.context-path";
-	private static final String MANAGEMENT_ADDRESS = "management.address";
+	static final String MANAGEMENT_PORT = "management.port";
+	static final String MANAGEMENT_CONTEXT_PATH = "management.context-path";
+	static final String MANAGEMENT_ADDRESS = "management.address";
 
-	@Autowired
 	private AnsProperties ansProperties;
-
-	@Autowired
 	private ApplicationContext context;
+
+	public AnsRegistration(AnsProperties ansProperties, ApplicationContext context) {
+		this.ansProperties = ansProperties;
+		this.context = context;
+	}
 
 	@PostConstruct
 	public void init() {

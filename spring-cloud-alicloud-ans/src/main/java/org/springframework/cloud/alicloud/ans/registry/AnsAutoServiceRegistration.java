@@ -18,7 +18,6 @@ package org.springframework.cloud.alicloud.ans.registry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.serviceregistry.AbstractAutoServiceRegistration;
 import org.springframework.cloud.client.serviceregistry.AutoServiceRegistrationProperties;
 import org.springframework.cloud.client.serviceregistry.ServiceRegistry;
@@ -27,13 +26,13 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author xiaolongzuo
+ * @author pbting
  */
 public class AnsAutoServiceRegistration
 		extends AbstractAutoServiceRegistration<AnsRegistration> {
-	private static final Logger LOGGER = LoggerFactory
+	private static final Logger log = LoggerFactory
 			.getLogger(AnsAutoServiceRegistration.class);
 
-	@Autowired
 	private AnsRegistration registration;
 
 	public AnsAutoServiceRegistration(ServiceRegistry<AnsRegistration> serviceRegistry,
@@ -65,7 +64,7 @@ public class AnsAutoServiceRegistration
 	@Override
 	protected void register() {
 		if (!this.registration.getAnsProperties().isRegisterEnabled()) {
-			LOGGER.debug("Registration disabled.");
+			log.debug("Registration disabled.");
 			return;
 		}
 		if (this.registration.getPort() < 0) {

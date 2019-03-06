@@ -48,12 +48,13 @@ public class AnsServer extends Server {
 
 			@Override
 			public String getServiceIdForDiscovery() {
-				return null;
+				return dom;
 			}
 
 			@Override
 			public String getInstanceId() {
-				return null;
+				return AnsServer.this.host.getIp() + ":" + dom + ":"
+						+ AnsServer.this.host.getPort();
 			}
 		};
 	}
@@ -71,4 +72,9 @@ public class AnsServer extends Server {
 		return metadata;
 	}
 
+	@Override
+	public String toString() {
+		return "AnsServer{" + "metaInfo=" + metaInfo + ", host=" + host + ", metadata="
+				+ metadata + '}';
+	}
 }

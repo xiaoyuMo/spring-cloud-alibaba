@@ -16,10 +16,8 @@
 
 package org.springframework.cloud.alicloud.ans.endpoint;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.alibaba.ans.core.NamingService;
+import com.alibaba.ans.shaded.com.taobao.vipserver.client.core.Host;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,16 +25,19 @@ import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.cloud.alicloud.context.ans.AnsProperties;
 
-import com.alibaba.ans.core.NamingService;
-import com.alibaba.ans.shaded.com.taobao.vipserver.client.core.Host;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author xiaolongzuo
+ * @author pbting
  */
 @Endpoint(id = "ans")
 public class AnsEndpoint {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AnsEndpoint.class);
+	private static final Logger log = LoggerFactory.getLogger(AnsEndpoint.class);
 
 	private AnsProperties ansProperties;
 
@@ -50,7 +51,7 @@ public class AnsEndpoint {
 	@ReadOperation
 	public Map<String, Object> invoke() {
 		Map<String, Object> ansEndpoint = new HashMap<>();
-		LOGGER.info("ANS endpoint invoke, ansProperties is {}", ansProperties);
+		log.info("ANS endpoint invoke, ansProperties is " + ansProperties);
 		ansEndpoint.put("ansProperties", ansProperties);
 
 		Map<String, Object> subscribes = new HashMap<>();
@@ -65,7 +66,7 @@ public class AnsEndpoint {
 			}
 		}
 		ansEndpoint.put("subscribes", subscribes);
-		LOGGER.info("ANS endpoint invoke, subscribes is {}", subscribes);
+		log.info("ANS endpoint invoke, subscribes is " + subscribes);
 		return ansEndpoint;
 	}
 
